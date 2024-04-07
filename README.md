@@ -4,8 +4,9 @@
 Fooocus installer for Sagemaker Studio Lab
 
 Simply add this repo to Sagemaker and run `sh start.sh`
-
 you can watch vedio on YouTube https://youtu.be/rO9Jp88YFE0?si=KRvc-BKfnXL4FT1M
+
+if you want to run that on collab withot disconnect then follow this vedio
 
 
 HERE SOME GENRATED  IMAGES OF THAT
