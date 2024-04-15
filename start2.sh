@@ -48,6 +48,8 @@ cd ..
 # Run Python script in the background
 python Fooocus/entry_with_update.py --always-high-vram &
 
+sleep 120
+
 # Run cloudflared tunnel
 cloudflared tunnel --url localhost:7865
 
