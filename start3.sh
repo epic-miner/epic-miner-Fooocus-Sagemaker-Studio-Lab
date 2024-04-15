@@ -55,14 +55,3 @@ read -p "Enter your zrok token: " token
 
 # Run Python script in the background
 python Fooocus/entry_with_update.py --always-high-vram &
-
-# wait for 120 seconds
-sleep 120
-# start zork tunnel
-./zrok share public http://127.0.0.1:7865
-# Check if the script was called with the "reset" argument
-if [ $# -eq 0 ]; then
-  sh zrok.sh
-elif [ $1 = "reset" ]; then
-  sh zrok.sh
-fi
