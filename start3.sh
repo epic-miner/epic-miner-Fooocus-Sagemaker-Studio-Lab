@@ -45,9 +45,6 @@ fi
 conda activate fooocus
 cd ..
 
-# Run Python script in the background
-python Fooocus/entry_with_update.py --always-high-vram &
-
 # Run zrok tunnel
 wget https://github.com/openziti/zrok/releases/download/v0.4.26/zrok_0.4.26_linux_amd64.tar.gz
 tar -xzvf zrok_0.4.26_linux_amd64.tar.gz
@@ -56,6 +53,9 @@ chmod +x zrok
 read -p "Enter your zrok token: " token
 ./zrok enable "$token"
 ./zrok share public http://127.0.0.1:7865
+
+# Run Python script in the background
+python Fooocus/entry_with_update.py --always-high-vram &
 
 # Check if the script was called with the "reset" argument
 if [ $# -eq 0 ]; then
