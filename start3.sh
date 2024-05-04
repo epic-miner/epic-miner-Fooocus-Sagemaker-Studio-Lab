@@ -45,13 +45,7 @@ fi
 conda activate fooocus
 cd ..
 
-# Run zrok tunnel
-wget https://github.com/openziti/zrok/releases/download/v0.4.26/zrok_0.4.26_linux_amd64.tar.gz
-tar -xzvf zrok_0.4.26_linux_amd64.tar.gz
-chmod +x zrok
-./zrok invite
-read -p "Enter your zrok token: " token
-./zrok enable "$token"
+lt --port 8888 & wget -q -O - https://loca.lt/mytunnelpassword
 
 # Run Python script in the background
 python Fooocus/entry_with_update.py --always-high-vram &
