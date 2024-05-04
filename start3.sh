@@ -45,7 +45,7 @@ fi
 conda activate fooocus
 cd ..
 
-lt --port 8888 & wget -q -O - https://loca.lt/mytunnelpassword
+lt --port 7865 & wget -q -O - https://loca.lt/mytunnelpassword
 
 # Run Python script in the background
 python Fooocus/entry_with_update.py --always-high-vram &
