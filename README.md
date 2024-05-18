@@ -16,7 +16,7 @@ Welcome to the installation guide for Fooocus on Sagemaker Studio Lab. This guid
 2. **Navigate to the Repository**: Once the repository is cloned, navigate into the repository directory:
 
    ```bash
-   cd epic-miner/epic-miner-Fooocus-Sagemaker-Studio-Lab
+   cd epic-miner-Fooocus-Sagemaker-Studio-Lab
    ```
 
 3. **Run the Installation Script**: Execute the installation script `start.sh` to set up Fooocus:
