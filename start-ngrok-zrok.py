@@ -1,14 +1,17 @@
 import argparse
 import json
 import os
+import psutil
+import socket
 import subprocess
 import sys
-import socket
-from multiprocessing import Process
 import time
+
+from pyngrok import ngrok, conf
 
 DATA_FILE = 'data.json'
 DEFAULT_PORT = 7865
+
 
 def load_saved_data():
     try:
@@ -17,17 +20,21 @@ def load_saved_data():
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
+
 def save_data(data):
     with open(DATA_FILE, 'w') as file:
         json.dump(data, file)
 
+
 def signal_handler(sig, frame):
-    print('Terminating the application gracefully...')
+    print('Exiting gracefully...')
     sys.exit(0)
+
 
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('127.0.0.1', port)) == 0
+
 
 def find_and_terminate_process(port):
     for process in psutil.process_iter(['pid', 'name', 'connections']):
@@ -40,16 +47,17 @@ def find_and_terminate_process(port):
                 except psutil.NoSuchProcess:
                     print(f"Process with PID {process.info['pid']} not found")
 
-def run_application(env):
-    cmd = 'python Fooocus/entry_with_update.py --always-high-vram > log.txt & ' \
-          'ssh -o StrictHostKeyChecking=no -p 80 -R0:localhost:7865 a.pinggy.io > log.txt'
+
+def run_app(env):
+    cmd = 'python Fooocus/entry_with_update.py --always-high-vram > log.txt & ssh -o StrictHostKeyChecking=no -p 80 -R0:localhost:7865 a.pinggy.io > log.txt'
     subprocess.run(cmd, shell=True, env=env)
+
 
 def print_url():
     print("Waiting for the output...")
     time.sleep(2)
     sys.stdout.flush()
-    
+
     found = False
     with open('log.txt', 'r') as file:
         end_word = '.pinggy.link'
@@ -58,9 +66,7 @@ def print_url():
             if start_index != -1:
                 end_index = line.find(end_word, start_index)
                 if end_index != -1:
-                    print("Click the URL:")
                     print("URL: " + line[start_index:end_index + len(end_word)])
-                    print("##############")
                     found = True
     if not found:
         print_url()
@@ -69,20 +75,24 @@ def print_url():
             for line in file:
                 print(line)
 
+
 def get_zrok_token(args, saved_data):
     if args.token_zrok is None:
         args.token_zrok = saved_data.get('token_zrok', input('Enter the Zrok session token: ') or None)
         saved_data['token_zrok'] = args.token_zrok
         save_data(saved_data)
 
+
 def main():
+    target_port = 7865
+
     env = os.environ.copy()
-    
-    if is_port_in_use(DEFAULT_PORT):
-        find_and_terminate_process(DEFAULT_PORT)
+
+    if is_port_in_use(target_port):
+        find_and_terminate_process(target_port)
     else:
-        print(f"Port {DEFAULT_PORT} is free.")
-    
+        print(f"Port {target_port} is free.")
+
     parser = argparse.ArgumentParser(description='Console app with token and domain arguments')
     parser.add_argument('--token', help='Specify the ngrok token')
     parser.add_argument('--domain', help='Specify the ngrok domain')
@@ -91,45 +101,58 @@ def main():
     parser.add_argument('--reset', action='store_true', help='Reset saved data')
 
     args = parser.parse_args()
+
     saved_data = load_saved_data()
 
     if args.reset:
-        saved_data.clear()
+        if saved_data is not None:
+            saved_data = {'token': '', 'domain': '', 'tunnel': '', 'token_zrok': '', 'zrok_activated': ''}
     else:
-        for key in ('token', 'domain', 'tunnel', 'token_zrok'):
-            if getattr(args, key) is not None:
-                saved_data[key] = getattr(args, key)
+        if saved_data is not None:
+            if args.token:
+                saved_data['token'] = args.token
+            if args.domain:
+                saved_data['domain'] = args.domain
+            if args.tunnel:
+                saved_data['tunnel'] = args.tunnel
+            try:
+                print("Tunnel in the json file is: " + saved_data['tunnel'])
+            except:
+                saved_data['tunnel'] = ''
+            try:
+                print("Ngrok token in the json file is: " + saved_data['token'])
+            except:
+                saved_data['token'] = ''
+            try:
+                print("Ngrok domain in the json file is: " + saved_data['domain'])
+            except:
+                saved_data['domain'] = ''
+            try:
+                print("Zrok token in the json file is: " + saved_data['token_zrok'])
+            except:
+                saved_data['token_zrok'] = ''
+            try:
+                print("Zrok activated in the json file is: " + saved_data['zrok_activated'])
+            except:
+                saved_data['zrok_activated'] = ''
+        else:
+            saved_data = {'token': '', 'domain': '', 'tunnel': '', 'token_zrok': '', 'zrok_activated': ''}
 
     if args.tunnel is None:
-        args.tunnel = saved_data.get('tunnel', input('Enter a tunnel: pinggy [1], zrok [2], ngrok [3] (1/2/3): ') or '1')
-        saved_data['tunnel'] = args.tunnel
-            
+        if saved_data and saved_data['tunnel']:
+            args.tunnel = saved_data['tunnel']
+        else:
+            args.tunnel = input(
+                'Enter a tunnel: pinggy [1], zrok [2], ngrok [3] (1/2/3): ')
+            if args.tunnel == '':
+                args.tunnel = 1
+            saved_data['tunnel'] = args.tunnel
+
     save_data(saved_data)
-    
+
     cmd = 'python Fooocus/entry_with_update.py --always-high-vram'
-    
-    print("Tunnel:", args.tunnel)
+
+    print("Tunnel: " + args.tunnel)
     if args.tunnel == '3':
         if args.token is None:
-            args.token = saved_data.get('token', input('Enter the token: ') or None)
-            saved_data['token'] = args.token
-
-        if args.domain is None:
-            args.domain = saved_data.get('domain', input('Enter the domain: ') or '')
-            saved_data['domain'] = args.domain
-        save_data(saved_data)                        
-        print('Token:', args.token)
-        print('Domain:', args.domain)
-        print('Using ngrok')
-        print('Token:', args.token)
-        if args.token:
-            ngrok.kill()
-            srv = ngrok.connect(DEFAULT_PORT, pyngrok_config=conf.PyngrokConfig(auth_token=args.token),
-                                bind_tls=True, domain=args.domain).public_url
-            print(srv)
-            signal.signal(signal.SIGINT, signal_handler)
-            print('Press Ctrl+C to exit')   
-            subprocess.run(cmd, shell=True, env=env)
-            signal.pause()
-        else:
-            print('An ngrok token is required. You can get one on https://ngrok.com')
+            if saved_data and saved
