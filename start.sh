@@ -71,7 +71,7 @@ conda activate fooocus
 cd ..
 
 if [ $# -eq 0 ]; then
-  python start-ngrok-zrok.py
+  python pinggy.py
 elif [ "$1" = "reset" ]; then
   python pinggy.py --reset
 fi
