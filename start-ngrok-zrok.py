@@ -133,5 +133,3 @@ def main():
             signal.pause()
         else:
             print('An ngrok token is required. You can get one on https://ngrok.com')
-            
-    elif args.t
