@@ -1,3 +1,4 @@
+
 import argparse
 import json
 from pyngrok import ngrok, conf
@@ -62,9 +63,9 @@ def print_url():
             if start_index != -1:
                 end_index = line.find(end_word, start_index)
                 if end_index != -1:
-                    print("😁 😁 😁")
+                    print("publc url")
                     print("URL: " + line[start_index:end_index + len(end_word)])
-                    print("😁 😁 😁")
+                    print("pubilc url")
                     found = True
     if not found:
         print_url()
