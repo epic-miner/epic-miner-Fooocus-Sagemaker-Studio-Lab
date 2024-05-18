@@ -73,5 +73,5 @@ cd ..
 if [ $# -eq 0 ]; then
   python start-ngrok-zrok.py
 elif [ "$1" = "reset" ]; then
-  python start-ngrok-and-zrok.py --reset
+  python pinggy.py --reset
 fi
