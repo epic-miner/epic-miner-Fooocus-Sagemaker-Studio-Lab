@@ -10,13 +10,13 @@ Welcome to the installation guide for Fooocus on Sagemaker Studio Lab. This guid
 1. **Clone the Repository**: Begin by cloning the Fooocus repository into your Sagemaker Studio Lab environment. You can do this by running the following command:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/epic-miner/epic-miner-Fooocus-Sagemaker-Studio-Lab.git
    ```
 
 2. **Navigate to the Repository**: Once the repository is cloned, navigate into the repository directory:
 
    ```bash
-   cd Fooocus-Sagemaker-Studio-Lab
+   cd epic-miner/epic-miner-Fooocus-Sagemaker-Studio-Lab
    ```
 
 3. **Run the Installation Script**: Execute the installation script `start.sh` to set up Fooocus:
@@ -41,5 +41,5 @@ Here are some sample images generated using Fooocus:
 ![Sample Image 6](https://miro.medium.com/v2/resize:fit:300/format:webp/1*E2B2gNo9u85kruKzjwUhyg.png)
 ![Sample Image 7](https://miro.medium.com/v2/resize:fit:300/format:webp/1*Z0RECpwByHu3evMibMr0Sw.png)
 ![Sample Image 8](https://miro.medium.com/v2/resize:fit:300/format:webp/1*RN0eF4lQu9I7qF49uEarPw.png)
-```
+
 
