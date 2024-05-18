@@ -62,9 +62,9 @@ def print_url():
             if start_index != -1:
                 end_index = line.find(end_word, start_index)
                 if end_index != -1:
-                    print("😁 😁 😁")
+                    print("click the url")
                     print("URL: " + line[start_index:end_index + len(end_word)])
-                    print("😁 😁 😁")
+                    print("##############")
                     found = True
     if not found:
         print_url()
