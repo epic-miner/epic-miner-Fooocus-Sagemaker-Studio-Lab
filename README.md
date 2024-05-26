@@ -30,7 +30,7 @@ Welcome to the installation guide for Fooocus on Sagemaker Studio Lab. This guid
 5. **For Continuous Execution**: If you want to run Fooocus on Collab without disconnecting, refer to [this video](https://youtu.be/Navs-2we4Bo?si=dSsuFR1aMpc02yVC) for guidance.
 
 6. for sagemaker toutorial chekout [this 
-vedio](https://youtu.be/QA2o1bHt9U4?si=_kqzUH87_1A-K6w_) for gidence
+vedio](https://youtu.be/Tl5eHI_AMmw?si=KuxZgL_5QVI1I5Mw) for gidence
 ## Generated Images
 
 Here are some sample images generated using Fooocus:
