@@ -9,7 +9,7 @@ then
 fi
 cd Fooocus
 git pull
-if [ "$install_in_temp_dir" = true ]
+if [ "$install_in_temp_dir" = false ]
 then
   echo "Installation folder: /tmp/fooocus_env"
   if [ ! -L ~/.conda/envs/fooocus ]
